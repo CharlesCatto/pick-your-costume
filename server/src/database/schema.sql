@@ -1,7 +1,17 @@
-CREATE DATABASE IF NOT EXISTS costume_db;
+-- Désactive les contraintes de clés étrangères temporairement
+SET FOREIGN_KEY_CHECKS = 0;
 
-USE costume_db;
+-- Supprime les tables si elles existent (pour un reset propre)
+DROP TABLE IF EXISTS costume_materials;
 
+DROP TABLE IF EXISTS costume_tags;
+
+DROP TABLE IF EXISTS costumes;
+
+-- Réactive les contraintes
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Crée les tables
 CREATE TABLE costumes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,

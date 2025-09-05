@@ -12,12 +12,17 @@
 		"seed": "ts-node bin/seed.ts",
 		"reset-db": "npm run migrate && npm run seed"
 	},
-	"keywords": ["express", "typescript", "mysql", "costume"],
+	"keywords": [
+		"express",
+		"typescript",
+		"mysql",
+		"costume"
+	],
 	"author": "Charles Cattoir",
 	"license": "ISC",
 	"dependencies": {
 		"cors": "^2.8.5",
-		"dotenv": "^16.4.5",
+		"dotenv": "^16.6.1",
 		"express": "^4.19.2",
 		"mysql2": "^3.9.2"
 	},
