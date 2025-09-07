@@ -1,0 +1,164 @@
+.container {
+	padding: var(--space-8);
+}
+
+.controls {
+	background-color: hsl(var(--color-card));
+	padding: var(--space-6);
+	border-radius: var(--radius-lg);
+	margin-bottom: var(--space-8);
+	border: 1px solid hsl(var(--color-border));
+}
+
+.filterGroup {
+	margin-bottom: var(--space-6);
+}
+
+.filterGroup h3 {
+	margin-bottom: var(--space-4);
+	color: hsl(var(--color-primary));
+}
+
+.filterButtons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.filterButton {
+	padding: var(--space-2) var(--space-4);
+	border: 2px solid hsl(var(--color-primary));
+	background-color: transparent;
+	color: hsl(var(--color-primary));
+	border-radius: var(--radius);
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.filterButton:hover {
+	background-color: hsl(var(--color-primary) / 0.1);
+}
+
+.filterButton.active {
+	background-color: hsl(var(--color-primary));
+	color: white;
+}
+
+.slider {
+	width: 100%;
+	margin: var(--space-4) 0;
+}
+
+.actionGroup {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+	align-items: center;
+}
+
+.actionButton {
+	padding: var(--space-2) var(--space-4);
+	border: 2px solid hsl(var(--color-primary));
+	background-color: transparent;
+	color: hsl(var(--color-primary));
+	border-radius: var(--radius);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-weight: 600;
+}
+
+.actionButton:hover {
+	background-color: hsl(var(--color-primary) / 0.1);
+}
+
+.actionButton.active {
+	background-color: hsl(var(--color-primary));
+	color: white;
+}
+
+.cardsContainer {
+	min-height: 400px;
+}
+
+.singleCard {
+	display: flex;
+	justify-content: center;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.cardsGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: var(--space-6);
+}
+
+.counter {
+	display: flex;
+	align-items: center;
+	padding: 0 var(--space-4);
+	font-weight: bold;
+	color: hsl(var(--color-primary));
+}
+
+.noResults {
+	text-align: center;
+	font-size: var(--text-xl);
+	color: hsl(var(--color-muted-foreground));
+	margin-top: var(--space-12);
+}
+
+.actionButton.disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.actionButton.disabled:hover {
+	background-color: transparent;
+	color: hsl(var(--color-primary));
+	transform: none;
+}
+
+@media (max-width: 768px) {
+	.container {
+		padding: var(--space-4);
+	}
+
+	.actionGroup {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.actionGroup button {
+		margin-bottom: var(--space-2);
+	}
+
+	.counter {
+		justify-content: center;
+		margin-top: var(--space-2);
+	}
+}
+
+.filterHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--space-4);
+}
+
+.selectAllButton {
+	padding: var(--space-2) var(--space-3);
+	background-color: transparent;
+	border: 1px solid hsl(var(--color-border));
+	border-radius: var(--radius);
+	color: hsl(var(--color-muted-foreground));
+	cursor: pointer;
+	font-size: var(--text-sm);
+	transition: all 0.2s ease;
+}
+
+.selectAllButton:hover {
+	border-color: hsl(var(--color-primary));
+	color: hsl(var(--color-primary));
+	background-color: hsl(var(--color-primary) / 0.1);
+}
