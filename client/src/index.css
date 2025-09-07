@@ -1,0 +1,102 @@
+/* Variables CSS communes */
+:root {
+	/* Espacements */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-4: 1rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+
+	/* Bordures */
+	--radius-sm: 0.25rem;
+	--radius: 0.5rem;
+	--radius-lg: 0.75rem;
+
+	/* Polices */
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 1.875rem;
+	--text-4xl: 2.25rem;
+
+	/* Animations */
+	--transition: all 0.3s ease;
+}
+
+/* Styles de base */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	line-height: 1.6;
+	transition: var(--transition);
+}
+
+/* Appliquer les variables de thème */
+[data-theme="halloween"] {
+	--color-primary: 25 95% 53%; /* Orange Halloween */
+	--color-secondary: 274 82% 38%; /* Violet */
+	--color-accent: 0 0% 0%; /* Noir */
+	--color-background: 0 0% 100%;
+	--color-foreground: 0 0% 15%;
+	--color-muted: 25 20% 85%;
+	--color-muted-foreground: 0 0% 40%;
+	--color-border: 25 20% 80%;
+	--color-card: 0 0% 100%;
+	--color-card-foreground: 0 0% 15%;
+}
+
+[data-theme="christmas"] {
+	--color-primary: 142 76% 36%; /* Vert Noël */
+	--color-secondary: 0 84% 60%; /* Rouge */
+	--color-accent: 43 96% 56%; /* Or */
+	--color-background: 0 0% 100%;
+	--color-foreground: 0 0% 15%;
+	--color-muted: 142 20% 85%;
+	--color-muted-foreground: 0 0% 40%;
+	--color-border: 142 20% 80%;
+	--color-card: 0 0% 100%;
+	--color-card-foreground: 0 0% 15%;
+}
+
+[data-theme="carnival"] {
+	--color-primary: 292 84% 60%; /* Violet Carnaval */
+	--color-secondary: 172 66% 50%; /* Turquoise */
+	--color-accent: 36 100% 64%; /* Orange vif */
+	--color-background: 0 0% 100%;
+	--color-foreground: 0 0% 15%;
+	--color-muted: 292 20% 85%;
+	--color-muted-foreground: 0 0% 40%;
+	--color-border: 292 20% 80%;
+	--color-card: 0 0% 100%;
+	--color-card-foreground: 0 0% 15%;
+}
+
+/* Utilisation des variables */
+body {
+	background-color: hsl(var(--color-background));
+	color: hsl(var(--color-foreground));
+}
+
+.card {
+	background-color: hsl(var(--color-card));
+	border: 1px solid hsl(var(--color-border));
+	color: hsl(var(--color-card-foreground));
+}
+
+.btn-primary {
+	background-color: hsl(var(--color-primary));
+	color: white;
+}
+
+.btn-secondary {
+	background-color: hsl(var(--color-secondary));
+	color: white;
+}

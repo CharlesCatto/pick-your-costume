@@ -1,0 +1,135 @@
+.card {
+	background-color: hsl(var(--color-card));
+	border: 2px solid hsl(var(--color-border));
+	border-radius: var(--radius-lg);
+	padding: var(--space-6);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	border-color: hsl(var(--color-primary) / 0.5);
+}
+
+.cardHeader {
+	border-bottom: 2px solid hsl(var(--color-border));
+	padding-bottom: var(--space-4);
+	margin-bottom: var(--space-4);
+}
+
+.cardTitle {
+	font-size: var(--text-xl);
+	font-weight: 700;
+	color: hsl(var(--color-primary));
+	margin: 0 0 var(--space-2) 0;
+}
+
+.cardCategory {
+	display: inline-block;
+	background-color: hsl(var(--color-muted));
+	color: hsl(var(--color-muted-foreground));
+	padding: var(--space-1) var(--space-2);
+	border-radius: var(--radius-sm);
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.cardBody {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+}
+
+.imageContainer {
+	width: 100%;
+	height: 200px;
+	overflow: hidden;
+	border-radius: var(--radius);
+	background-color: hsl(var(--color-muted));
+}
+
+.costumeImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.costumeImage:hover {
+	transform: scale(1.05);
+}
+
+.costumeInfo {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.description {
+	line-height: 1.6;
+	color: hsl(var(--color-foreground));
+}
+
+.tags {
+	margin-top: auto;
+}
+
+.tagList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: var(--space-2);
+}
+
+.tag {
+	background-color: hsl(var(--color-primary) / 0.1);
+	color: hsl(var(--color-primary));
+	padding: var(--space-1) var(--space-2);
+	border-radius: var(--radius-sm);
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+.popularity {
+	color: hsl(var(--color-muted-foreground));
+	font-size: var(--text-sm);
+}
+
+/* Styles pour le blur */
+.blurred {
+	filter: blur(8px);
+	user-select: none;
+	pointer-events: none;
+}
+
+.blurredContent .costumeInfo {
+	filter: blur(8px);
+	user-select: none;
+	pointer-events: none;
+}
+
+.blurredContent .cardHeader {
+	filter: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.card {
+		padding: var(--space-4);
+	}
+
+	.imageContainer {
+		height: 160px;
+	}
+
+	.cardTitle {
+		font-size: var(--text-lg);
+	}
+}
