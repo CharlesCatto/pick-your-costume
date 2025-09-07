@@ -21,7 +21,9 @@ CREATE TABLE costumes (
         'movie',
         'animal',
         'professional',
-        'historical'
+        'historical',
+        'funny',
+        'holiday'
     ) NOT NULL,
     difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
     price_range ENUM(
