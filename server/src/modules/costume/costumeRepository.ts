@@ -1,9 +1,10 @@
+import type { RowDataPacket } from "mysql2";
 import connection from "../../database/client";
 import type { CostumeWithDetails } from "./costumeTypes";
 
 export const costumeRepository = {
 	async findAll(): Promise<CostumeWithDetails[]> {
-		const [rows] = await connection.execute(
+		const [rows] = await (await connection).execute<RowDataPacket[]>(
 			`SELECT c.*, 
               GROUP_CONCAT(DISTINCT ct.tag) as tags,
               GROUP_CONCAT(DISTINCT CONCAT(cm.material, '|||', cm.quantity)) as materials
@@ -13,20 +14,20 @@ export const costumeRepository = {
        GROUP BY c.id`,
 		);
 
-		return (rows as any[]).map((row) => ({
+		return rows.map((row) => ({
 			...row,
-			tags: row.tags ? row.tags.split(",") : [],
+			tags: row.tags ? (row.tags as string).split(",") : [],
 			materials: row.materials
-				? row.materials.split(",").map((mat: string) => {
+				? (row.materials as string).split(",").map((mat: string) => {
 						const [material, quantity] = mat.split("|||");
 						return { material, quantity };
 					})
 				: [],
-		}));
+		})) as CostumeWithDetails[];
 	},
 
 	async findById(id: number): Promise<CostumeWithDetails | null> {
-		const [rows] = await connection.execute(
+		const [rows] = await (await connection).execute<RowDataPacket[]>(
 			`SELECT c.*, 
               GROUP_CONCAT(DISTINCT ct.tag) as tags,
               GROUP_CONCAT(DISTINCT CONCAT(cm.material, '|||', cm.quantity)) as materials
@@ -38,23 +39,23 @@ export const costumeRepository = {
 			[id],
 		);
 
-		const costume = (rows as any[])[0];
+		const costume = rows[0] as RowDataPacket | undefined;
 		if (!costume) return null;
 
 		return {
 			...costume,
-			tags: costume.tags ? costume.tags.split(",") : [],
+			tags: costume.tags ? (costume.tags as string).split(",") : [],
 			materials: costume.materials
-				? costume.materials.split(",").map((mat: string) => {
+				? (costume.materials as string).split(",").map((mat: string) => {
 						const [material, quantity] = mat.split("|||");
 						return { material, quantity };
 					})
 				: [],
-		};
+		} as CostumeWithDetails;
 	},
 
 	async findByCategory(category: string): Promise<CostumeWithDetails[]> {
-		const [rows] = await connection.execute(
+		const [rows] = await (await connection).execute<RowDataPacket[]>(
 			`SELECT c.*, 
               GROUP_CONCAT(DISTINCT ct.tag) as tags,
               GROUP_CONCAT(DISTINCT CONCAT(cm.material, '|||', cm.quantity)) as materials
@@ -66,15 +67,15 @@ export const costumeRepository = {
 			[category],
 		);
 
-		return (rows as any[]).map((row) => ({
+		return rows.map((row) => ({
 			...row,
-			tags: row.tags ? row.tags.split(",") : [],
+			tags: row.tags ? (row.tags as string).split(",") : [],
 			materials: row.materials
-				? row.materials.split(",").map((mat: string) => {
+				? (row.materials as string).split(",").map((mat: string) => {
 						const [material, quantity] = mat.split("|||");
 						return { material, quantity };
 					})
 				: [],
-		}));
+		})) as CostumeWithDetails[];
 	},
 };

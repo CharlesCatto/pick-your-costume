@@ -3,14 +3,18 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const connection = mysql.createPool({
+console.log("🔹 ENV Loaded:", {
+	DB_HOST: process.env.DB_HOST,
+	DB_USER: process.env.DB_USER,
+	DB_PASSWORD: process.env.DB_PASSWORD ? "****" : "MISSING",
+	DB_NAME: process.env.DB_NAME,
+});
+
+const connectionPromise = mysql.createConnection({
 	host: process.env.DB_HOST || "localhost",
 	user: process.env.DB_USER || "root",
 	password: process.env.DB_PASSWORD || "",
 	database: process.env.DB_NAME || "costume_db",
-	waitForConnections: true,
-	connectionLimit: 10,
-	queueLimit: 0,
 });
 
-export default connection;
+export default connectionPromise;

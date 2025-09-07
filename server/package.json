@@ -10,14 +10,10 @@
 		"start": "node dist/main.js",
 		"migrate": "ts-node bin/migrate.ts",
 		"seed": "ts-node bin/seed.ts",
-		"reset-db": "npm run migrate && npm run seed"
+		"reset-db": "npm run migrate && npm run seed",
+		"check-db": "ts-node bin/check-db.ts"
 	},
-	"keywords": [
-		"express",
-		"typescript",
-		"mysql",
-		"costume"
-	],
+	"keywords": ["express", "typescript", "mysql", "costume"],
 	"author": "Charles Cattoir",
 	"license": "ISC",
 	"dependencies": {
