@@ -2,6 +2,8 @@ import connectionPromise from "../src/database/client";
 import { costumes } from "../src/database/seedData";
 import type { ResultSetHeader } from "mysql2";
 
+console.log("Costumes au chargement:", costumes);
+
 async function seed() {
 	console.log("🌱 Starting database seeding...");
 

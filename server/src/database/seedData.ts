@@ -7,7 +7,7 @@ export const costumes = [
 		difficulty: "easy",
 		price_range: "low",
 		description: "Classic vampire costume with cape and fangs",
-		image_url: "/images/vampire.jpg",
+		image_url: "/images/costumes/vampire.jpg",
 		tags: ["blood", "cape", "fangs", "nocturnal"],
 		materials: [
 			{ material: "Black cape", quantity: "1" },
@@ -22,7 +22,7 @@ export const costumes = [
 		difficulty: "easy",
 		price_range: "low",
 		description: "Undead zombie with torn clothes and realistic wounds",
-		image_url: "/images/zombie.jpg",
+		image_url: "/images/costumes/zombie.jpg",
 		tags: ["undead", "blood", "apocalypse", "walking dead"],
 		materials: [
 			{ material: "Old clothes", quantity: "1 set" },
@@ -37,7 +37,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "The classic reanimated monster with bolts and stitches",
-		image_url: "/images/frankenstein.jpg",
+		image_url: "/images/costumes/frankenstein.jpg",
 		tags: ["monster", "stitches", "bolts", "classic"],
 		materials: [
 			{ material: "Green face paint", quantity: "1 tube" },
@@ -54,7 +54,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "low",
 		description: "Traditional witch costume with hat and broom",
-		image_url: "/images/witch.jpg",
+		image_url: "/images/costumes/witch.jpg",
 		tags: ["broom", "hat", "magic", "cauldron"],
 		materials: [
 			{ material: "Witch hat", quantity: "1" },
@@ -69,7 +69,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "Powerful wizard with robe, hat and magical staff",
-		image_url: "/images/wizard.jpg",
+		image_url: "/images/costumes/wizard.jpg",
 		tags: ["magic", "staff", "robe", "spellbook"],
 		materials: [
 			{ material: "Wizard robe", quantity: "1" },
@@ -101,7 +101,7 @@ export const costumes = [
 		difficulty: "hard",
 		price_range: "high",
 		description: "Custom superhero costume with cape and mask",
-		image_url: "/images/superhero.jpg",
+		image_url: "/images/costumes/superhero.jpg",
 		tags: ["cape", "mask", "hero", "comics"],
 		materials: [
 			{ material: "Cape", quantity: "1" },
@@ -116,7 +116,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "Swashbuckling pirate with eye patch and sword",
-		image_url: "/images/pirate.jpg",
+		image_url: "/images/costumes/pirate.jpg",
 		tags: ["sea", "sword", "treasure", "parrot"],
 		materials: [
 			{ material: "Eye patch", quantity: "1" },
@@ -131,7 +131,7 @@ export const costumes = [
 		difficulty: "hard",
 		price_range: "high",
 		description: "Space explorer with helmet and NASA-style suit",
-		image_url: "/images/astronaut.jpg",
+		image_url: "/images/costumes/astronaut.jpg",
 		tags: ["space", "nasa", "moon", "explorer"],
 		materials: [
 			{ material: "Space helmet", quantity: "1" },
@@ -148,7 +148,7 @@ export const costumes = [
 		difficulty: "easy",
 		price_range: "low",
 		description: "Playful cat with ears, tail and whiskers",
-		image_url: "/images/cat.jpg",
+		image_url: "/images/costumes/cat.jpg",
 		tags: ["whiskers", "tail", "ears", "playful"],
 		materials: [
 			{ material: "Cat ears", quantity: "1 pair" },
@@ -604,7 +604,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "Oversized baby with diaper and pacifier",
-		image_url: "/images/baby.jpg",
+		image_url: "/images/costumes/baby.jpg",
 		tags: ["oversized", "diaper", "funny", "pacifier"],
 		materials: [
 			{ material: "Onesie", quantity: "1" },
@@ -619,7 +619,7 @@ export const costumes = [
 		difficulty: "easy",
 		price_range: "low",
 		description: "The iconic striped shirt and hat character",
-		image_url: "/images/waldo.jpg",
+		image_url: "/images/costumes/waldo.jpg",
 		tags: ["stripes", "book", "search", "iconic"],
 		materials: [
 			{ material: "Striped shirt", quantity: "1" },
@@ -636,7 +636,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "Paranormal investigator with proton pack",
-		image_url: "/images/ghostbuster.jpg",
+		image_url: "/images/costumes/ghostbuster.jpg",
 		tags: ["proton pack", "ghost", "80s", "classic"],
 		materials: [
 			{ material: "Jumpsuit", quantity: "1" },
@@ -651,7 +651,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "Adventurous archaeologist with hat and whip",
-		image_url: "/images/indianajones.jpg",
+		image_url: "/images/costumes/indianajones.jpg",
 		tags: ["adventure", "archaeologist", "whip", "fedora"],
 		materials: [
 			{ material: "Fedora hat", quantity: "1" },
@@ -668,7 +668,7 @@ export const costumes = [
 		difficulty: "hard",
 		price_range: "high",
 		description: "Mythical fire bird with flame effects",
-		image_url: "/images/phoenix.jpg",
+		image_url: "/images/costumes/phoenix.jpg",
 		tags: ["fire", "bird", "rebirth", "mythical"],
 		materials: [
 			{ material: "Feather wings", quantity: "1 pair" },
@@ -683,7 +683,7 @@ export const costumes = [
 		difficulty: "hard",
 		price_range: "high",
 		description: "Cosmic horror entity with tentacles",
-		image_url: "/images/cthulhu.jpg",
+		image_url: "/images/costumes/cthulhu.jpg",
 		tags: ["lovecraft", "tentacles", "cosmic", "elder god"],
 		materials: [
 			{ material: "Tentacle mask", quantity: "1" },
@@ -700,7 +700,7 @@ export const costumes = [
 		difficulty: "easy",
 		price_range: "low",
 		description: "Jolly Christmas gift-bringer",
-		image_url: "/images/santa.jpg",
+		image_url: "/images/costumes/santa.jpg",
 		tags: ["christmas", "gifts", "red", "jolly"],
 		materials: [
 			{ material: "Red suit", quantity: "1" },
@@ -715,7 +715,7 @@ export const costumes = [
 		difficulty: "medium",
 		price_range: "medium",
 		description: "Sweet cookie come to life",
-		image_url: "/images/gingerbread.jpg",
+		image_url: "/images/costumes/gingerbread.jpg",
 		tags: ["christmas", "cookie", "sweet", "holiday"],
 		materials: [
 			{ material: "Brown bodysuit", quantity: "1" },

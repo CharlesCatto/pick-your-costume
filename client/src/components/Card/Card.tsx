@@ -2,6 +2,7 @@ import type { Costume } from "../../data/costumeTypes";
 import styles from "./Card.module.css";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useCostumeHelpers } from "../../utils/Helpers";
+import LazyImage from "../LazyImage/LazyImage";
 
 interface CardProps {
 	costume: Costume;
@@ -33,10 +34,17 @@ const Card = ({
 			<div
 				className={`${styles.cardBody} ${isBlurred ? (blurContentOnly ? styles.blurredContent : styles.blurred) : ""}`}
 			>
-				{/* Image du costume */}
+				{/* Image du costume avec Lazy Loading */}
 				{costume.image_url && (
 					<div className={styles.imageContainer}>
-						<img
+						{(() => {
+							console.log(
+								"Costume image_url avant traitement:",
+								costume.image_url,
+							);
+							return null; // rien à afficher dans le DOM
+						})()}
+						<LazyImage
 							src={costume.image_url}
 							alt={costume.name}
 							className={styles.costumeImage}
@@ -61,9 +69,11 @@ const Card = ({
 						{getPriceRangeDisplayName(costume.price_range)}
 					</p>
 
-					<p className={styles.description}>
-						<strong>{t("common.description")}:</strong> {costume.description}
-					</p>
+					{costume.description && (
+						<p className={styles.description}>
+							<strong>{t("common.description")}:</strong> {costume.description}
+						</p>
+					)}
 
 					{/* Tags du costume */}
 					{costume.tags && costume.tags.length > 0 && (
@@ -82,10 +92,27 @@ const Card = ({
 						</div>
 					)}
 
+					{/* Materials du costume */}
+					{costume.materials && costume.materials.length > 0 && (
+						<div className={styles.materials}>
+							<strong>{t("common.materials")}:</strong>
+							<ul className={styles.materialsList}>
+								{costume.materials.map((material) => (
+									<li key={material.material} className={styles.materialItem}>
+										{material.material}{" "}
+										{material.quantity && `(${material.quantity})`}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+
 					{/* Popularité (optionnel) */}
-					{costume.popularity !== undefined && (
+					{costume.popularity !== undefined && costume.popularity > 0 && (
 						<p className={styles.popularity}>
-							<strong>Popularité:</strong> {costume.popularity} ★
+							<strong>{t("common.popularity")}:</strong>
+							{"★".repeat(costume.popularity)}
+							{"☆".repeat(5 - costume.popularity)} ({costume.popularity}/5)
 						</p>
 					)}
 				</div>

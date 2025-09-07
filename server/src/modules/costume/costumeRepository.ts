@@ -13,7 +13,10 @@ export const costumeRepository = {
        LEFT JOIN costume_materials cm ON c.id = cm.costume_id
        GROUP BY c.id`,
 		);
-
+		console.log(
+			"Costumes récupérés depuis la BDD:",
+			rows.map((row) => row.image_url),
+		);
 		return rows.map((row) => ({
 			...row,
 			tags: row.tags ? (row.tags as string).split(",") : [],

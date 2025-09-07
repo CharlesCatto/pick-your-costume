@@ -28,7 +28,7 @@ const Costumes = () => {
 		return getAllCategories();
 	}, [getAllCategories]);
 
-	// Filtrer les costumes en fonction des catégories sélectionnées et du filtre de prix
+	// Filtrer les costumes
 	const filteredCostumes: Costume[] = useMemo(() => {
 		let filtered = costumes;
 
@@ -57,19 +57,17 @@ const Costumes = () => {
 		}
 	}, [filteredCostumes]);
 
-	// Fonction pour sélectionner toutes les catégories
+	// Gestion sélection catégories
 	const selectAllCategories = () => {
-		setSelectedCategories(categories);
+		setSelectedCategories(categories as CostumeCategory[]);
 		setIsRandomMode(false);
 	};
 
-	// Fonction pour désélectionner toutes les catégories
 	const deselectAllCategories = () => {
 		setSelectedCategories([]);
 		setIsRandomMode(false);
 	};
 
-	// Fonction pour toggle la sélection globale
 	const toggleSelectAll = () => {
 		if (selectedCategories.length === categories.length) {
 			deselectAllCategories();
@@ -78,7 +76,6 @@ const Costumes = () => {
 		}
 	};
 
-	// Fonction pour toggle une catégorie
 	const toggleCategory = (category: CostumeCategory) => {
 		setSelectedCategories((prev) =>
 			prev.includes(category)
@@ -88,7 +85,7 @@ const Costumes = () => {
 		setIsRandomMode(false);
 	};
 
-	// Fonction pour passer au costume suivant
+	// Navigation aléatoire
 	const nextCostume = () => {
 		if (filteredCostumes.length === 0) {
 			setIsRandomMode(false);
@@ -98,20 +95,16 @@ const Costumes = () => {
 		setCurrentCostumeIndex(randomIndex);
 	};
 
-	// Fonction pour activer/désactiver le mode random
 	const toggleRandomMode = () => {
 		if (filteredCostumes.length === 0) return;
-
 		setIsRandomMode((prev) => !prev);
 		if (!isRandomMode) {
 			nextCostume();
 		}
 	};
 
-	// Fonction pour le mode devinette
 	const toggleBlindMode = () => {
 		if (filteredCostumes.length === 0) return;
-
 		setIsBlurred((prev) => !prev);
 		if (!isRandomMode) {
 			toggleRandomMode();
@@ -126,9 +119,9 @@ const Costumes = () => {
 		<div className={styles.container}>
 			<h1>{t("costumes.title")}</h1>
 
-			{/* Section des Contrôles */}
+			{/* --- Section des filtres et actions --- */}
 			<div className={styles.controls}>
-				{/* Filtres par Catégorie */}
+				{/* Filtres par catégorie */}
 				<div className={styles.filterGroup}>
 					<div className={styles.filterHeader}>
 						<h3>{t("costumes.filterByCategory")}</h3>
@@ -147,9 +140,11 @@ const Costumes = () => {
 							<button
 								type="button"
 								key={category}
-								onClick={() => toggleCategory(category)}
+								onClick={() => toggleCategory(category as CostumeCategory)}
 								className={`${styles.filterButton} ${
-									selectedCategories.includes(category) ? styles.active : ""
+									selectedCategories.includes(category as CostumeCategory)
+										? styles.active
+										: ""
 								}`}
 							>
 								{getCategoryDisplayName(category)}
@@ -158,7 +153,7 @@ const Costumes = () => {
 					</div>
 				</div>
 
-				{/* Filtre de Prix */}
+				{/* Filtre de prix */}
 				<div className={styles.filterGroup}>
 					<h3>{t("costumes.priceRange")}</h3>
 					<select
@@ -176,7 +171,7 @@ const Costumes = () => {
 					</select>
 				</div>
 
-				{/* Boutons d'Action */}
+				{/* Boutons Random / Blind Mode */}
 				<div className={styles.actionGroup}>
 					<button
 						type="button"
@@ -202,7 +197,7 @@ const Costumes = () => {
 						{isBlurred ? t("costumes.seeAnswer") : t("costumes.guessMode")}
 					</button>
 
-					{/* Boutons de navigation */}
+					{/* Navigation aléatoire */}
 					{isRandomMode && filteredCostumes.length > 0 && (
 						<>
 							<button
@@ -220,7 +215,7 @@ const Costumes = () => {
 				</div>
 			</div>
 
-			{/* Message si aucun résultat */}
+			{/* Aucun résultat */}
 			{filteredCostumes.length === 0 && !loading && (
 				<div className={styles.noResults}>
 					<h3>{t("costumes.noResults")}</h3>
@@ -228,10 +223,9 @@ const Costumes = () => {
 				</div>
 			)}
 
-			{/* Affichage des Costumes */}
+			{/* Galerie ou costume unique */}
 			<div className={styles.costumesContainer}>
 				{filteredCostumes.length > 0 && isRandomMode ? (
-					// Mode une carte à la fois
 					<div className={styles.singleCostume}>
 						<Card
 							costume={filteredCostumes[currentCostumeIndex]}
@@ -240,7 +234,6 @@ const Costumes = () => {
 						/>
 					</div>
 				) : filteredCostumes.length > 0 ? (
-					// Mode galerie (tous les costumes)
 					<div className={styles.costumesGrid}>
 						{filteredCostumes.map((costume: Costume) => (
 							<Card key={costume.id} costume={costume} />

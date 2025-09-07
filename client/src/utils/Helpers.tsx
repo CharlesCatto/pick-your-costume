@@ -1,74 +1,3 @@
-// import { useCostumeData } from "../hooks/useCostumeData";
-// import type {
-// 	Costume,
-// 	CostumeCategory,
-// 	CostumeDifficulty,
-// 	PriceRange,
-// } from "../data/costumeTypes";
-
-// // Helper pour obtenir le nom d'une catégorie avec emoji
-// export const getCategoryDisplayName = (category: CostumeCategory): string => {
-// 	const categoryMap: Record<CostumeCategory, { name: string; emoji: string }> =
-// 		{
-// 			fantasy: { name: "Fantasy", emoji: "🧙" },
-// 			horror: { name: "Horror", emoji: "👻" },
-// 			movie: { name: "Movie", emoji: "🎬" },
-// 			animal: { name: "Animal", emoji: "🐾" },
-// 			professional: { name: "Professional", emoji: "💼" },
-// 			historical: { name: "Historical", emoji: "🏛️" },
-// 		};
-
-// 	const categoryInfo = categoryMap[category];
-// 	return `${categoryInfo.emoji} ${categoryInfo.name}`;
-// };
-
-// // Helper pour obtenir le nom complet de la difficulté
-// export const getDifficultyDisplayName = (
-// 	difficulty: CostumeDifficulty,
-// ): string => {
-// 	const difficultyMap: Record<CostumeDifficulty, string> = {
-// 		easy: "Easy",
-// 		medium: "Medium",
-// 		hard: "Hard",
-// 	};
-// 	return difficultyMap[difficulty];
-// };
-
-// // Helper pour obtenir le nom complet de la fourchette de prix
-// export const getPriceRangeDisplayName = (priceRange: PriceRange): string => {
-// 	const priceMap: Record<PriceRange, { name: string; symbol: string }> = {
-// 		low: { name: "Low", symbol: "$" },
-// 		medium: { name: "Medium", symbol: "$$" },
-// 		high: { name: "High", symbol: "$$$" },
-// 		luxury: { name: "Luxury", symbol: "$$$$" },
-// 	};
-
-// 	const priceInfo = priceMap[priceRange];
-// 	return `${priceInfo.symbol} ${priceInfo.name}`;
-// };
-
-// // Hook personnalisé pour les helpers de costumes
-// export const useCostumeHelpers = () => {
-// 	const { costumes, loading, error } = useCostumeData();
-
-// 	// Obtenir toutes les catégories uniques
-// 	const getAllCategories = (): CostumeCategory[] => {
-// 		const categories = [
-// 			...new Set(costumes.map((costume: Costume) => costume.category)),
-// 		];
-// 		return categories as CostumeCategory[];
-// 	};
-
-// 	return {
-// 		costumes,
-// 		loading,
-// 		error,
-// 		getAllCategories,
-// 		getCategoryDisplayName,
-// 		getDifficultyDisplayName,
-// 		getPriceRangeDisplayName,
-// 	};
-// };
 import { useCostumeData } from "../hooks/useCostumeData";
 import type {
 	Costume,
@@ -77,7 +6,7 @@ import type {
 	PriceRange,
 } from "../data/costumeTypes";
 
-// Mapping complet des catégories avec emojis
+// Mapping complet des catégories avec emojis - METS À JOUR CET OBJET
 export const CATEGORY_MAP: Record<string, { name: string; emoji: string }> = {
 	fantasy: { name: "Fantasy", emoji: "🧙" },
 	horror: { name: "Horror", emoji: "👻" },
@@ -89,13 +18,14 @@ export const CATEGORY_MAP: Record<string, { name: string; emoji: string }> = {
 	holiday: { name: "Holiday", emoji: "🎄" },
 } as const;
 
-// Helper pour obtenir le nom d'une catégorie avec emoji (sécurisé)
+// Helper sécurisé pour obtenir le nom d'une catégorie avec emoji
 export const getCategoryDisplayName = (category: string): string => {
+	// Vérifie d'abord si la catégorie existe dans le mapping
 	const categoryInfo = CATEGORY_MAP[category];
 
-	// Fallback pour les catégories inconnues
 	if (!categoryInfo) {
-		console.warn(`Category "${category}" not found in CATEGORY_MAP`);
+		// Fallback pour les catégories inconnues
+		console.warn(`⚠️ Category "${category}" not found in CATEGORY_MAP`);
 		return `❓ ${category.charAt(0).toUpperCase() + category.slice(1)}`;
 	}
 
@@ -142,14 +72,14 @@ export const getPriceRangeDisplayName = (priceRange: PriceRange): string => {
 };
 
 // Obtenir toutes les catégories disponibles depuis le mapping
-export const getAllCategories = (): CostumeCategory[] => {
-	return Object.keys(CATEGORY_MAP) as CostumeCategory[];
+export const getAllCategories = (): string[] => {
+	return Object.keys(CATEGORY_MAP);
 };
 
 // Filtrer les costumes par catégorie
 export const filterCostumesByCategory = (
 	costumes: Costume[],
-	category: CostumeCategory,
+	category: string,
 ): Costume[] => {
 	return costumes.filter((costume) => costume.category === category);
 };
@@ -175,11 +105,11 @@ export const useCostumeHelpers = () => {
 	const { costumes, loading, error } = useCostumeData();
 
 	// Obtenir toutes les catégories uniques depuis les données
-	const getUniqueCategoriesFromData = (): CostumeCategory[] => {
+	const getUniqueCategoriesFromData = (): string[] => {
 		const categories = [
 			...new Set(costumes.map((costume: Costume) => costume.category)),
 		];
-		return categories as CostumeCategory[];
+		return categories;
 	};
 
 	// Obtenir le nombre de costumes par catégorie
@@ -210,6 +140,3 @@ export const useCostumeHelpers = () => {
 		filterCostumesByPriceRange,
 	};
 };
-
-// Export des types pour une utilisation externe
-export type { Costume, CostumeCategory, CostumeDifficulty, PriceRange };

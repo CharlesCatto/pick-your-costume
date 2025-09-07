@@ -29,3 +29,27 @@ function App() {
 }
 
 export default App;
+
+// import { HashRouter as Router, Routes, Route } from "react-router-dom";
+// import NavBar from "../components/NavBar/NavBar";
+// import CostumeTest from "../components/CostumeTest";
+// import styles from "./App.module.css";
+
+// function App() {
+// 	console.log("App component rendering");
+
+// 	return (
+// 		<Router>
+// 			<div className={styles.app}>
+// 				<NavBar />
+// 				<main className={styles.mainContent}>
+// 					<Routes>
+// 						<Route path="/" element={<CostumeTest />} />
+// 					</Routes>
+// 				</main>
+// 			</div>
+// 		</Router>
+// 	);
+// }
+
+// export default App;
