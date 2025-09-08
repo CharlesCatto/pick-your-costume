@@ -111,8 +111,9 @@ const Card = ({
 					{costume.popularity !== undefined && costume.popularity > 0 && (
 						<p className={styles.popularity}>
 							<strong>{t("common.popularity")}:</strong>
-							{"★".repeat(costume.popularity)}
-							{"☆".repeat(5 - costume.popularity)} ({costume.popularity}/5)
+							{"★".repeat(Math.max(0, Math.min(5, costume.popularity)))}
+							{"☆".repeat(Math.max(0, 5 - Math.min(5, costume.popularity)))}(
+							{costume.popularity}/5)
 						</p>
 					)}
 				</div>

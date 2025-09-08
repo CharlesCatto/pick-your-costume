@@ -1,28 +1,38 @@
+export type CostumeCategory =
+	| "fantasy"
+	| "horror"
+	| "movie"
+	| "animal"
+	| "professional"
+	| "historical"
+	| "funny"
+	| "holiday";
+
+export type CostumeDifficulty = "easy" | "medium" | "hard";
+export type PriceRange = "low" | "medium" | "high" | "luxury";
+
+export interface CostumeMaterial {
+	material: string;
+	quantity?: string;
+}
+
+/**
+ * Costume principal tel que renvoyé par l'API (traductions appliquées).
+ */
 export interface Costume {
 	id: number;
 	name: string;
-	category: string;
-	difficulty: string;
-	price_range: string;
 	description: string;
-	image_url: string;
-	popularity: number;
-	created_at: Date;
-	updated_at: Date;
+	category: CostumeCategory;
+	difficulty: CostumeDifficulty;
+	price_range: PriceRange;
+	image_url: string | null;
+	popularity?: number;
+	created_at: string;
+	updated_at: string;
 }
 
 export interface CostumeWithDetails extends Costume {
 	tags: string[];
 	materials: CostumeMaterial[];
-}
-
-export interface CostumeMaterial {
-	material: string;
-	quantity: string;
-}
-
-export interface CostumeRepository {
-	findAll(): Promise<CostumeWithDetails[]>;
-	findById(id: number): Promise<CostumeWithDetails | null>;
-	findByCategory(category: string): Promise<CostumeWithDetails[]>;
 }

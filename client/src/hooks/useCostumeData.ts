@@ -1,35 +1,38 @@
 import { useState, useEffect } from "react";
 import type { Costume } from "../data/costumeTypes";
+import { useLanguage } from "./useLanguage";
 
 export const useCostumeData = () => {
 	const [costumes, setCostumes] = useState<Costume[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const { language } = useLanguage();
 
 	useEffect(() => {
 		const fetchCostumes = async () => {
-			console.log("Fetching costumes from API...");
 			try {
-				const response = await fetch("http://localhost:3001/api/costumes");
-				console.log("API response status:", response.status);
+				setLoading(true);
+				const response = await fetch(
+					`http://localhost:3001/api/costumes?lang=${language}`,
+				);
+
 				if (!response.ok) {
-					throw new Error("Failed to fetch costumes");
+					throw new Error(`HTTP error! status: ${response.status}`);
 				}
+
 				const data = await response.json();
-				console.log("Costumes data received:", data);
 				setCostumes(data);
+				setError(null);
 			} catch (err) {
-				console.error("Error fetching costumes:", err);
 				setError(err instanceof Error ? err.message : "An error occurred");
-				setCostumes([]);
+				console.error("Error fetching costumes:", err);
 			} finally {
 				setLoading(false);
-				console.log("Loading completed");
 			}
 		};
 
 		fetchCostumes();
-	}, []);
+	}, [language]);
 
 	return { costumes, loading, error };
 };
