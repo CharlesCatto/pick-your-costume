@@ -3,8 +3,9 @@ import { costumeRepository } from "./costumeRepository";
 
 export const costumeActions = {
 	async getAllCostumes(req: Request, res: Response) {
+		const lang = String(req.query.lang ?? "en");
 		try {
-			const costumes = await costumeRepository.findAll();
+			const costumes = await costumeRepository.findAll(lang);
 			res.json(costumes);
 		} catch (error) {
 			console.error("Error fetching costumes:", error);
@@ -13,13 +14,15 @@ export const costumeActions = {
 	},
 
 	async getCostumeById(req: Request, res: Response) {
-		try {
-			const id = Number.parseInt(req.params.id, 10);
-			if (Number.isNaN(id)) {
-				return res.status(400).json({ error: "Invalid costume ID" });
-			}
+		const id = Number.parseInt(req.params.id, 10);
+		const lang = String(req.query.lang ?? "en");
 
-			const costume = await costumeRepository.findById(id);
+		if (Number.isNaN(id)) {
+			return res.status(400).json({ error: "Invalid costume ID" });
+		}
+
+		try {
+			const costume = await costumeRepository.findById(id, lang);
 			if (!costume) {
 				return res.status(404).json({ error: "Costume not found" });
 			}
@@ -31,22 +34,11 @@ export const costumeActions = {
 	},
 
 	async getCostumesByCategory(req: Request, res: Response) {
+		const category = String(req.params.category);
+		const lang = String(req.query.lang ?? "en");
+
 		try {
-			const { category } = req.params;
-			const validCategories = [
-				"fantasy",
-				"horror",
-				"movie",
-				"animal",
-				"professional",
-				"historical",
-			];
-
-			if (!validCategories.includes(category)) {
-				return res.status(400).json({ error: "Invalid category" });
-			}
-
-			const costumes = await costumeRepository.findByCategory(category);
+			const costumes = await costumeRepository.findByCategory(category, lang);
 			res.json(costumes);
 		} catch (error) {
 			console.error("Error fetching costumes by category:", error);

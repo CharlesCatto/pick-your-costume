@@ -145,6 +145,8 @@ export const translations = {
 			low: "Low",
 			high: "High",
 			luxury: "Luxury",
+			materials: "Materials",
+			popularity: "Popularity",
 		},
 	},
 	fr: {
@@ -294,6 +296,8 @@ export const translations = {
 			low: "Bas",
 			high: "Élevé",
 			luxury: "Luxe",
+			materials: "Matériaux",
+			popularity: "Popularité",
 		},
 	},
 };
