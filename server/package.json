@@ -2,24 +2,20 @@
 	"name": "pick-your-costume-server",
 	"version": "1.0.0",
 	"description": "Backend server for Pick Your Costume",
-	"main": "dist/main.js",
+	"main": "dist/src/main.js",
 	"type": "commonjs",
 	"scripts": {
-		"dev": "nodemon src/main.ts",
-		"build": "tsc",
-		"start": "node dist/main.js",
+		"dev": "tsc --watch",
+		"build": "tsc --project tsconfig.build.json",
+		"start": "node dist/src/main.js",
 		"migrate": "ts-node bin/migrate.ts",
 		"seed": "ts-node bin/seed.ts",
 		"reset-db": "npm run migrate && npm run seed",
 		"check-db": "ts-node bin/check-db.ts",
-		"render-build": "npm install && npm run build"
+		"render-build": "npm install && npm run build && npm run copy-files",
+		"copy-files": "cp -r src/database dist/ && cp package.json dist/ && cp .env.production dist/ || true"
 	},
-	"keywords": [
-		"express",
-		"typescript",
-		"mysql",
-		"costume"
-	],
+	"keywords": ["express", "typescript", "mysql", "costume"],
 	"author": "Charles Cattoir",
 	"license": "ISC",
 	"dependencies": {
