@@ -11,16 +11,22 @@
 		"migrate": "ts-node bin/migrate.ts",
 		"seed": "ts-node bin/seed.ts",
 		"reset-db": "npm run migrate && npm run seed",
-		"check-db": "ts-node bin/check-db.ts"
+		"check-db": "ts-node bin/check-db.ts",
+		"render-build": "npm install && npm run build"
 	},
-	"keywords": ["express", "typescript", "mysql", "costume"],
+	"keywords": [
+		"express",
+		"typescript",
+		"mysql",
+		"costume"
+	],
 	"author": "Charles Cattoir",
 	"license": "ISC",
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^16.6.1",
 		"express": "^4.19.2",
-		"mysql2": "^3.9.2"
+		"mysql2": "^3.14.5"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
