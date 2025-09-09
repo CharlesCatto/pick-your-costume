@@ -40,7 +40,12 @@ const NavBar = () => {
 	];
 
 	return (
-		<nav className={styles.navbar}>
+		<nav
+			className={styles.navbar}
+			style={{
+				background: "var(--navbar-gradient)",
+			}}
+		>
 			<div className={styles.navContainer} ref={navRef}>
 				<NavLink to="/" className={styles.navLogo} onClick={closeMobileMenu}>
 					Pick your Costume

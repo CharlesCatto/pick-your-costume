@@ -61,9 +61,15 @@ export const translations = {
 				"Try adjusting the price filter or selecting different categories.",
 			loading: "Loading costumes...",
 		},
-		categories: {
-			title: "Browse by Category",
-			filterBy: "Filter by category:",
+		category: {
+			fantasy: "Fantasy",
+			horror: "Horror",
+			movie: "Movie & TV",
+			animal: "Animals",
+			professional: "Professions",
+			historical: "Historical",
+			funny: "Funny",
+			holiday: "Holiday",
 		},
 		about: {
 			title: "About Pick Your Costume",
@@ -215,6 +221,9 @@ export const translations = {
 		categories: {
 			title: "Parcourir par Catégorie",
 			filterBy: "Filtrer par catégorie:",
+			all: "Toutes les catégories",
+			noCostumes: "Aucun costume trouvé",
+			count: "{count} costumes",
 		},
 		about: {
 			title: "À Propos de Pick Your Costume",
