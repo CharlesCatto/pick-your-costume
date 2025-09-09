@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../contexts/useTheme";
 import type { Theme } from "../../contexts/ThemeContext";
 import styles from "./ThemeSelector.module.css";
@@ -7,6 +7,7 @@ import styles from "./ThemeSelector.module.css";
 const ThemeSelector: React.FC = () => {
 	const { theme, setTheme, themes } = useTheme();
 	const [isOpen, setIsOpen] = useState(false);
+	const ref = useRef<HTMLDivElement>(null);
 
 	const handleThemeChange = (newTheme: Theme) => {
 		setTheme(newTheme);
@@ -14,6 +15,24 @@ const ThemeSelector: React.FC = () => {
 	};
 
 	const currentTheme = themes.find((t) => t.id === theme);
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (ref.current && !ref.current.contains(event.target as Node)) {
+				setIsOpen(false);
+			}
+		};
+
+		if (isOpen) {
+			document.addEventListener("mousedown", handleClickOutside);
+		} else {
+			document.removeEventListener("mousedown", handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [isOpen]);
 
 	return (
 		<div className={styles.themeSelector}>

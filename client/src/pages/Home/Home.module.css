@@ -37,7 +37,7 @@
 }
 
 .ctaButton:hover {
-	background-color: hsl(var(--color-primary-hover));
+	background-color: #7e3c76;
 	transform: translateY(-2px);
 }
 

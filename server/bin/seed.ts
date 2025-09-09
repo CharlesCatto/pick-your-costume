@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
-import { costumes } from "../src/database/seedData"; // IMPORTE TES VRAIES DONNÉES
+import { costumes } from "../src/database/seedData";
 
 dotenv.config();
 

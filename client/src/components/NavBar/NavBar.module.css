@@ -97,6 +97,7 @@
 	color: hsl(var(--color-foreground));
 	font-size: var(--text-2xl);
 	cursor: pointer;
+	 margin-left: var(--space-3);
 }
 
 @media screen and (max-width: 960px) {
@@ -279,8 +280,8 @@
 .navActions {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-right: var(--space-4);
+  gap: var(--space-3); 
+  margin-left: auto;  
 }
 
 /* Bouton de langue */
@@ -292,6 +293,7 @@
   cursor: pointer;
   font-size: var(--text-lg);
   transition: var(--transition);
+  flex-shrink: 0;
 }
 
 .langButton:hover {
@@ -321,7 +323,7 @@
   transform-origin: center;
 }
 
-.navIcon.open span:nth-child(1) {
+/* .navIcon.open span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
 
@@ -331,7 +333,7 @@
 
 .navIcon.open span:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -6px);
-}
+} */
 
 /* Responsive */
 @media screen and (max-width: 960px) {
@@ -347,5 +349,6 @@
   /* Cacher le texte du thème en mobile */
   .themeSelector :global(.themeName) {
     display: none;
+	 flex-shrink: 0;
   }
 }
