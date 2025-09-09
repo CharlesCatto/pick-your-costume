@@ -41,35 +41,57 @@ body {
 
 /* Appliquer les variables de thème */
 [data-theme="halloween"] {
-	--color-primary: 25 95% 53%;
+	--color-primary: #78206e;
 	--color-secondary: 274 82% 38%;
 	--navbar-gradient: linear-gradient(
 		135deg,
 		hsl(25 95% 53% / 0.9) 0%,
 		hsl(25 85% 48% / 0.9) 100%
 	);
+	--color-accent: 0 0% 0%; /* Noir */
+	--color-background: 0 0% 100%;
+	--color-foreground: 0 0% 15%;
+	--color-muted: 25 20% 85%;
+	--color-muted-foreground: 0 0% 40%;
+	--color-border: 25 20% 80%;
+	--color-card: 0 0% 100%;
+	--color-card-foreground: 0 0% 15%;
 }
 
-/* Thème Christmas plus subtil */
 [data-theme="christmas"] {
-	--color-primary: 142 76% 36%;
+	--color-primary: #c32230;
 	--color-secondary: 0 84% 60%;
 	--navbar-gradient: linear-gradient(
 		135deg,
 		hsl(142 76% 36% / 0.9) 0%,
 		hsl(142 70% 32% / 0.9) 100%
 	);
+	--color-accent: 43 96% 56%; /* Or */
+	--color-background: 0 0% 100%;
+	--color-foreground: 0 0% 15%;
+	--color-muted: 142 20% 85%;
+	--color-muted-foreground: 0 0% 40%;
+	--color-border: 142 20% 80%;
+	--color-card: 0 0% 100%;
+	--color-card-foreground: 0 0% 15%;
 }
 
-/* Thème Carnival plus subtil */
 [data-theme="carnival"] {
-	--color-primary: 292 84% 60%;
+	--color-primary: #ffd800;
 	--color-secondary: 172 66% 50%;
 	--navbar-gradient: linear-gradient(
 		135deg,
 		hsl(292 84% 60% / 0.9) 0%,
 		hsl(292 78% 55% / 0.9) 100%
 	);
+	--color-accent: 36 100% 64%; /* Orange vif */
+	--color-background: 0 0% 100%;
+	--color-foreground: 0 0% 15%;
+	--color-muted: 292 20% 85%;
+	--color-muted-foreground: 0 0% 40%;
+	--color-border: 292 20% 80%;
+	--color-card: 0 0% 100%;
+	--color-card-foreground: 0 0% 15%;
 }
 
 /* Utilisation des variables */
