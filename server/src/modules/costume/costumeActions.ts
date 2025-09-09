@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { costumeRepository } from "./costumeRepository";
 
 export const costumeActions = {
+	// Récupérer tous les costumes
 	async getAllCostumes(req: Request, res: Response) {
 		const lang = String(req.query.lang ?? "en");
 		try {
@@ -13,6 +14,7 @@ export const costumeActions = {
 		}
 	},
 
+	// Récupérer un costume par ID
 	async getCostumeById(req: Request, res: Response) {
 		const id = Number.parseInt(req.params.id, 10);
 		const lang = String(req.query.lang ?? "en");
@@ -33,6 +35,7 @@ export const costumeActions = {
 		}
 	},
 
+	// Récupérer des costumes par catégorie
 	async getCostumesByCategory(req: Request, res: Response) {
 		const category = String(req.params.category);
 		const lang = String(req.query.lang ?? "en");

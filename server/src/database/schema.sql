@@ -1,69 +1,44 @@
--- Désactive les contraintes de clés étrangères temporairement
-SET FOREIGN_KEY_CHECKS = 0;
+-- Supprimer les tables si elles existent déjà
+DROP TABLE IF EXISTS costume_materials CASCADE;
 
--- Supprime les tables si elles existent (pour un reset propre)
-DROP TABLE IF EXISTS costume_translations;
+DROP TABLE IF EXISTS costume_tags CASCADE;
 
-DROP TABLE IF EXISTS costume_materials;
+DROP TABLE IF EXISTS costume_translations CASCADE;
 
-DROP TABLE IF EXISTS costume_tags;
-
-DROP TABLE IF EXISTS costumes;
-
--- Réactive les contraintes
-SET FOREIGN_KEY_CHECKS = 1;
+DROP TABLE IF EXISTS costumes CASCADE;
 
 -- Table principale des costumes
 CREATE TABLE costumes (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    category ENUM(
-        'fantasy',
-        'horror',
-        'movie',
-        'animal',
-        'professional',
-        'historical',
-        'funny',
-        'holiday'
-    ) NOT NULL,
-    difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
-    price_range ENUM(
-        'low',
-        'medium',
-        'high',
-        'luxury'
-    ) NOT NULL,
-    image_url VARCHAR(255),
-    popularity INT DEFAULT 0,
+    id SERIAL PRIMARY KEY,
+    category TEXT NOT NULL,
+    difficulty TEXT NOT NULL,
+    price_range TEXT NOT NULL,
+    image_url TEXT,
+    popularity INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table des traductions pour les costumes
+-- Table des traductions pour chaque costume
 CREATE TABLE costume_translations (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    costume_id INT NOT NULL,
-    language_code VARCHAR(5) NOT NULL DEFAULT 'en', -- ex: 'en', 'fr', 'es'
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    FOREIGN KEY (costume_id) REFERENCES costumes (id) ON DELETE CASCADE,
-    UNIQUE KEY unique_costume_language (costume_id, language_code)
+    id SERIAL PRIMARY KEY,
+    costume_id INT REFERENCES costumes (id) ON DELETE CASCADE,
+    language_code VARCHAR(5) NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT
 );
 
 -- Table des tags
 CREATE TABLE costume_tags (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    costume_id INT,
-    tag VARCHAR(50) NOT NULL,
-    FOREIGN KEY (costume_id) REFERENCES costumes (id) ON DELETE CASCADE,
-    UNIQUE KEY unique_costume_tag (costume_id, tag)
+    id SERIAL PRIMARY KEY,
+    costume_id INT REFERENCES costumes (id) ON DELETE CASCADE,
+    tag TEXT NOT NULL
 );
 
--- Table des matériaux
+-- Table des matériaux nécessaires pour fabriquer un costume
 CREATE TABLE costume_materials (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    costume_id INT,
-    material VARCHAR(100) NOT NULL,
-    quantity VARCHAR(100),
-    FOREIGN KEY (costume_id) REFERENCES costumes (id) ON DELETE CASCADE
+    id SERIAL PRIMARY KEY,
+    costume_id INT REFERENCES costumes (id) ON DELETE CASCADE,
+    material TEXT NOT NULL,
+    quantity TEXT
 );

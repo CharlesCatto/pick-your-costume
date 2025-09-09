@@ -1,74 +1,70 @@
-import connectionPromise from "../src/database/client";
-import { costumes } from "../src/database/seedData";
-import type { ResultSetHeader } from "mysql2";
+import { Pool } from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
+	ssl: {
+		rejectUnauthorized: false, // obligatoire avec Render
+	},
+});
 
 async function seed() {
-	console.log("🌱 Starting database seeding...");
+	console.log("🌱 Seeding database...");
 
 	try {
-		const connection = await connectionPromise;
+		await pool.query("BEGIN");
 
-		console.log("📥 Inserting data into database...");
+		// Exemple de costumes
+		await pool.query(`
+      INSERT INTO costumes (category, difficulty, price_range, image_url, popularity)
+      VALUES
+      ('Halloween', 'Easy', 'Low', 'https://example.com/vampire.png', 10),
+      ('Christmas', 'Medium', 'Medium', 'https://example.com/elf.png', 15),
+      ('Carnival', 'Hard', 'High', 'https://example.com/clown.png', 5)
+    `);
 
-		// Insert costumes
-		for (const costume of costumes) {
-			console.log(`Processing costume ID: ${costume.id}`);
+		await pool.query(`
+      INSERT INTO costume_translations (costume_id, language_code, name, description)
+      VALUES
+      (1, 'en', 'Vampire', 'Classic vampire costume with cape'),
+      (2, 'en', 'Elf', 'Santa''s little helper'),
+      (3, 'en', 'Clown', 'Colorful clown outfit'),
+      (1, 'fr', 'Vampire', 'Costume de vampire classique avec cape'),
+      (2, 'fr', 'Lutin', 'Petit assistant du Père Noël'),
+      (3, 'fr', 'Clown', 'Costume de clown coloré')
+    `);
 
-			const [result] = await connection.execute<ResultSetHeader>(
-				`INSERT INTO costumes (category, difficulty, price_range, image_url, popularity)
-				 VALUES (?, ?, ?, ?, ?)`,
-				[
-					costume.category,
-					costume.difficulty,
-					costume.price_range,
-					costume.image_url || null,
-					costume.popularity || 0,
-				],
-			);
+		await pool.query(`
+      INSERT INTO costume_tags (costume_id, tag)
+      VALUES
+      (1, 'scary'),
+      (1, 'classic'),
+      (2, 'festive'),
+      (3, 'funny'),
+      (3, 'colorful')
+    `);
 
-			const costumeId = result.insertId;
-			console.log(`  Inserted costume ID: ${costumeId}`);
+		await pool.query(`
+      INSERT INTO costume_materials (costume_id, material, quantity)
+      VALUES
+      (1, 'Cape', '1'),
+      (1, 'Teeth', '1'),
+      (2, 'Hat', '1'),
+      (2, 'Shoes', '2'),
+      (3, 'Wig', '1'),
+      (3, 'Makeup', 'set')
+    `);
 
-			// Insert translations
-			for (const translation of costume.translations) {
-				console.log(`  Processing translation: ${translation.language_code}`);
-				console.log(`    Name: ${translation.name}`);
-				console.log(`    Description: ${translation.description}`);
+		await pool.query("COMMIT");
 
-				await connection.execute(
-					`INSERT INTO costume_translations (costume_id, language_code, name, description)
-					 VALUES (?, ?, ?, ?)`,
-					[
-						costumeId,
-						translation.language_code,
-						translation.name,
-						translation.description || null,
-					],
-				);
-			}
-
-			// Insert tags
-			for (const tag of costume.tags) {
-				await connection.execute(
-					"INSERT INTO costume_tags (costume_id, tag) VALUES (?, ?)",
-					[costumeId, tag],
-				);
-			}
-
-			// Insert materials
-			for (const { material, quantity } of costume.materials) {
-				await connection.execute(
-					"INSERT INTO costume_materials (costume_id, material, quantity) VALUES (?, ?, ?)",
-					[costumeId, material, quantity || null],
-				);
-			}
-		}
-
-		console.log("🎉 Database seeding completed successfully!");
-		process.exit(0);
+		console.log("✅ Seed completed successfully!");
 	} catch (error) {
-		console.error("❌ Seeding failed:", error);
-		process.exit(1);
+		await pool.query("ROLLBACK");
+		console.error("❌ Seed failed:", error);
+	} finally {
+		await pool.end();
 	}
 }
 

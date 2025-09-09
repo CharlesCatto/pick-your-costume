@@ -1,5 +1,4 @@
-import type { RowDataPacket } from "mysql2";
-import connection from "../../database/client";
+import pool from "../../database/client";
 import type {
 	CostumeWithDetails,
 	CostumeCategory,
@@ -7,148 +6,92 @@ import type {
 	PriceRange,
 } from "./costumeTypes";
 
-type DBRow = RowDataPacket & {
-	id: number;
-	category: string;
-	difficulty: string;
-	price_range: string;
-	image_url: string | null;
-	popularity: number | null;
-	created_at: string | Date | null;
-	updated_at: string | Date | null;
-	name?: string | null;
-	description?: string | null;
-	tags?: string | null;
-	materials?: string | null;
-};
-
-const mapRowToCostume = (row: DBRow): CostumeWithDetails => {
-	const materialsArr =
-		row.materials && row.materials.length > 0
-			? String(row.materials)
-					.split(",")
-					.map((m) => {
-						const [material, quantity] = m.split("|||");
-						return { material, quantity: quantity ?? undefined };
-					})
-			: [];
-
-	return {
-		id: row.id,
-		name: row.name || "Unknown Costume",
-		description: row.description || "No description available",
-		category: row.category as CostumeCategory,
-		difficulty: row.difficulty as CostumeDifficulty,
-		price_range: row.price_range as PriceRange,
-		image_url: row.image_url ?? null,
-		popularity: Number(row.popularity ?? 0),
-		created_at: row.created_at ? String(row.created_at) : "",
-		updated_at: row.updated_at ? String(row.updated_at) : "",
-		tags: row.tags && row.tags.length > 0 ? String(row.tags).split(",") : [],
-		materials: materialsArr,
-	};
-};
-
 export const costumeRepository = {
-	// tous les costumes
-	async findAll(lang = "en") {
+	// Récupère tous les costumes
+	async findAll(lang = "en"): Promise<CostumeWithDetails[]> {
 		const sql = `
-      SELECT
-        c.id,
-        c.category,
-        c.difficulty,
-        c.price_range,
-        c.image_url,
-        c.popularity,
-        c.created_at,
-        c.updated_at,
-        t.name AS name,
-        t.description AS description,
-        GROUP_CONCAT(DISTINCT ct.tag) AS tags,
-        GROUP_CONCAT(DISTINCT CONCAT(cm.material, '|||', cm.quantity)) AS materials
-      FROM costumes c
-      LEFT JOIN costume_translations t ON c.id = t.costume_id AND t.language_code = ?
-      LEFT JOIN costume_tags ct ON c.id = ct.costume_id
-      LEFT JOIN costume_materials cm ON c.id = cm.costume_id
-      GROUP BY 
-        c.id, c.category, c.difficulty, c.price_range, c.image_url, 
-        c.popularity, c.created_at, c.updated_at, t.name, t.description
-      ORDER BY c.id
-    `;
+			SELECT
+				c.id,
+				c.category,
+				c.difficulty,
+				c.price_range,
+				c.image_url,
+				c.popularity,
+				c.created_at,
+				c.updated_at,
+				t.name,
+				t.description,
+				COALESCE(array_agg(DISTINCT ct.tag) FILTER (WHERE ct.tag IS NOT NULL), '{}') AS tags,
+				COALESCE(json_agg(DISTINCT jsonb_build_object('material', cm.material, 'quantity', cm.quantity))
+				 FILTER (WHERE cm.material IS NOT NULL), '[]') AS materials
+			FROM costumes c
+			LEFT JOIN costume_translations t ON c.id = t.costume_id AND t.language_code = $1
+			LEFT JOIN costume_tags ct ON c.id = ct.costume_id
+			LEFT JOIN costume_materials cm ON c.id = cm.costume_id
+			GROUP BY c.id, t.name, t.description
+			ORDER BY c.id;
+		`;
 
-		const [rows] = await (await connection).execute<RowDataPacket[]>(sql, [
-			lang,
-		]);
-		return (rows as DBRow[]).map(mapRowToCostume);
+		const { rows } = await pool.query(sql, [lang]);
+		return rows as CostumeWithDetails[];
 	},
 
-	// costume par ID
+	// Costume par ID
 	async findById(id: number, lang = "en") {
 		const sql = `
-      SELECT
-        c.id,
-        c.category,
-        c.difficulty,
-        c.price_range,
-        c.image_url,
-        c.popularity,
-        c.created_at,
-        c.updated_at,
-        t.name AS name,
-        t.description AS description,
-        GROUP_CONCAT(DISTINCT ct.tag) AS tags,
-        GROUP_CONCAT(DISTINCT CONCAT(cm.material, '|||', cm.quantity)) AS materials
-      FROM costumes c
-      LEFT JOIN costume_translations t ON c.id = t.costume_id AND t.language_code = ?
-      LEFT JOIN costume_tags ct ON c.id = ct.costume_id
-      LEFT JOIN costume_materials cm ON c.id = cm.costume_id
-      WHERE c.id = ?
-      GROUP BY 
-        c.id, c.category, c.difficulty, c.price_range, c.image_url, 
-        c.popularity, c.created_at, c.updated_at, t.name, t.description
-      LIMIT 1
-    `;
+			SELECT
+				c.id,
+				c.category,
+				c.difficulty,
+				c.price_range,
+				c.image_url,
+				c.popularity,
+				c.created_at,
+				c.updated_at,
+				t.name,
+				t.description,
+				COALESCE(array_agg(DISTINCT ct.tag) FILTER (WHERE ct.tag IS NOT NULL), '{}') AS tags,
+				COALESCE(json_agg(DISTINCT jsonb_build_object('material', cm.material, 'quantity', cm.quantity))
+				 FILTER (WHERE cm.material IS NOT NULL), '[]') AS materials
+			FROM costumes c
+			LEFT JOIN costume_translations t ON c.id = t.costume_id AND t.language_code = $1
+			LEFT JOIN costume_tags ct ON c.id = ct.costume_id
+			LEFT JOIN costume_materials cm ON c.id = cm.costume_id
+			WHERE c.id = $2
+			GROUP BY c.id, t.name, t.description;
+		`;
 
-		const [rows] = await (await connection).execute<RowDataPacket[]>(sql, [
-			lang,
-			id,
-		]);
-		const dbRows = rows as DBRow[];
-		if (!dbRows || dbRows.length === 0) return null;
-		return mapRowToCostume(dbRows[0]);
+		const { rows } = await pool.query(sql, [lang, id]);
+		return rows[0] || null;
 	},
 
-	// costumes par catégorie
+	// Costumes par catégorie
 	async findByCategory(category: string, lang = "en") {
 		const sql = `
-      SELECT
-        c.id,
-        c.category,
-        c.difficulty,
-        c.price_range,
-        c.image_url,
-        c.popularity,
-        c.created_at,
-        c.updated_at,
-        t.name AS name,
-        t.description AS description,
-        GROUP_CONCAT(DISTINCT ct.tag) AS tags,
-        GROUP_CONCAT(DISTINCT CONCAT(cm.material, '|||', cm.quantity)) AS materials
-      FROM costumes c
-      LEFT JOIN costume_translations t ON c.id = t.costume_id AND t.language_code = ?
-      LEFT JOIN costume_tags ct ON c.id = ct.costume_id
-      LEFT JOIN costume_materials cm ON c.id = cm.costume_id
-      WHERE c.category = ?
-      GROUP BY 
-        c.id, c.category, c.difficulty, c.price_range, c.image_url, 
-        c.popularity, c.created_at, c.updated_at, t.name, t.description
-      ORDER BY c.id
-    `;
+			SELECT
+				c.id,
+				c.category,
+				c.difficulty,
+				c.price_range,
+				c.image_url,
+				c.popularity,
+				c.created_at,
+				c.updated_at,
+				t.name,
+				t.description,
+				COALESCE(array_agg(DISTINCT ct.tag) FILTER (WHERE ct.tag IS NOT NULL), '{}') AS tags,
+				COALESCE(json_agg(DISTINCT jsonb_build_object('material', cm.material, 'quantity', cm.quantity))
+				 FILTER (WHERE cm.material IS NOT NULL), '[]') AS materials
+			FROM costumes c
+			LEFT JOIN costume_translations t ON c.id = t.costume_id AND t.language_code = $1
+			LEFT JOIN costume_tags ct ON c.id = ct.costume_id
+			LEFT JOIN costume_materials cm ON c.id = cm.costume_id
+			WHERE c.category = $2
+			GROUP BY c.id, t.name, t.description
+			ORDER BY c.id;
+		`;
 
-		const [rows] = await (await connection).execute<RowDataPacket[]>(sql, [
-			lang,
-			category,
-		]);
-		return (rows as DBRow[]).map(mapRowToCostume);
+		const { rows } = await pool.query(sql, [lang, category]);
+		return rows as CostumeWithDetails[];
 	},
 };
