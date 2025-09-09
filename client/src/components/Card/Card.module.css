@@ -47,18 +47,17 @@
 }
 
 .imageContainer {
+	position: relative;
 	width: 100%;
 	height: 200px;
 	overflow: hidden;
-	border-radius: var(--radius);
-	background-color: hsl(var(--color-muted));
 }
 
 .costumeImage {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.3s ease;
+	object-position: top center;
 }
 
 .costumeImage:hover {
@@ -132,4 +131,11 @@
 	.cardTitle {
 		font-size: var(--text-lg);
 	}
+	.costumeImage {
+		object-position: center 30%;
+	}
+}
+
+.costumeCard:hover .costumeImage {
+	transform: scale(1.05);
 }
