@@ -9,6 +9,7 @@ import type {
 // Mapping complet des catégories avec emojis - METS À JOUR CET OBJET
 export const CATEGORY_MAP: Record<string, { name: string; emoji: string }> = {
 	fantasy: { name: "Fantasy", emoji: "🧙" },
+	halloween: { name: "Halloween", emoji: "🎃" },
 	horror: { name: "Horror", emoji: "👻" },
 	movie: { name: "Movie & TV", emoji: "🎬" },
 	animal: { name: "Animals", emoji: "🐾" },
@@ -59,8 +60,8 @@ export const getDifficultyDisplayName = (
 };
 
 // Helper pour obtenir le nom complet de la fourchette de prix
-export const getPriceRangeDisplayName = (priceRange: PriceRange): string => {
-	const priceMap: Record<PriceRange, { name: string; symbol: string }> = {
+export const getPriceRangeDisplayName = (priceRange: string): string => {
+	const priceMap: Record<string, { name: string; symbol: string }> = {
 		low: { name: "Low", symbol: "$" },
 		medium: { name: "Medium", symbol: "$$" },
 		high: { name: "High", symbol: "$$$" },
@@ -68,6 +69,12 @@ export const getPriceRangeDisplayName = (priceRange: PriceRange): string => {
 	};
 
 	const priceInfo = priceMap[priceRange];
+
+	// Fallback pour les price_range inconnus
+	if (!priceInfo) {
+		return `${priceRange} (unknown)`;
+	}
+
 	return `${priceInfo.symbol} ${priceInfo.name}`;
 };
 

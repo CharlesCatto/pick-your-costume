@@ -1,71 +1,81 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
+import { costumes } from "../src/database/seedData"; // IMPORTE TES VRAIES DONNÉES
 
 dotenv.config();
 
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
-		rejectUnauthorized: false, // obligatoire avec Render
+		rejectUnauthorized: false,
 	},
 });
 
 async function seed() {
-	console.log("🌱 Seeding database...");
+	console.log("🌱 Seeding database with REAL data...");
 
 	try {
 		await pool.query("BEGIN");
 
-		// Exemple de costumes
-		await pool.query(`
-      INSERT INTO costumes (category, difficulty, price_range, image_url, popularity)
-      VALUES
-      ('Halloween', 'Easy', 'Low', 'https://example.com/vampire.png', 10),
-      ('Christmas', 'Medium', 'Medium', 'https://example.com/elf.png', 15),
-      ('Carnival', 'Hard', 'High', 'https://example.com/clown.png', 5)
-    `);
+		for (const costumeData of costumes) {
+			// 1. Insère le costume principal
+			const costumeResult = await pool.query(
+				`INSERT INTO costumes (category, difficulty, price_range, image_url, popularity)
+         VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+				[
+					costumeData.category,
+					costumeData.difficulty,
+					costumeData.price_range,
+					costumeData.image_url,
+					costumeData.popularity || 0,
+				],
+			);
 
-		await pool.query(`
-      INSERT INTO costume_translations (costume_id, language_code, name, description)
-      VALUES
-      (1, 'en', 'Vampire', 'Classic vampire costume with cape'),
-      (2, 'en', 'Elf', 'Santa''s little helper'),
-      (3, 'en', 'Clown', 'Colorful clown outfit'),
-      (1, 'fr', 'Vampire', 'Costume de vampire classique avec cape'),
-      (2, 'fr', 'Lutin', 'Petit assistant du Père Noël'),
-      (3, 'fr', 'Clown', 'Costume de clown coloré')
-    `);
+			const costumeId = costumeResult.rows[0].id;
 
-		await pool.query(`
-      INSERT INTO costume_tags (costume_id, tag)
-      VALUES
-      (1, 'scary'),
-      (1, 'classic'),
-      (2, 'festive'),
-      (3, 'funny'),
-      (3, 'colorful')
-    `);
+			// 2. Insère les traductions
+			for (const translation of costumeData.translations) {
+				await pool.query(
+					`INSERT INTO costume_translations (costume_id, language_code, name, description)
+           VALUES ($1, $2, $3, $4)`,
+					[
+						costumeId,
+						translation.language_code,
+						translation.name,
+						translation.description,
+					],
+				);
+			}
 
-		await pool.query(`
-      INSERT INTO costume_materials (costume_id, material, quantity)
-      VALUES
-      (1, 'Cape', '1'),
-      (1, 'Teeth', '1'),
-      (2, 'Hat', '1'),
-      (2, 'Shoes', '2'),
-      (3, 'Wig', '1'),
-      (3, 'Makeup', 'set')
-    `);
+			// 3. Insère les tags
+			for (const tag of costumeData.tags) {
+				await pool.query(
+					"INSERT INTO costume_tags (costume_id, tag) VALUES ($1, $2)",
+					[costumeId, tag],
+				);
+			}
+
+			// 4. Insère les matériaux
+			for (const material of costumeData.materials) {
+				await pool.query(
+					`INSERT INTO costume_materials (costume_id, material, quantity)
+           VALUES ($1, $2, $3)`,
+					[costumeId, material.material, material.quantity],
+				);
+			}
+		}
 
 		await pool.query("COMMIT");
-
-		console.log("✅ Seed completed successfully!");
+		console.log(
+			`✅ Seed completed successfully! Inserted ${costumes.length} costumes.`,
+		);
 	} catch (error) {
 		await pool.query("ROLLBACK");
 		console.error("❌ Seed failed:", error);
+		throw error;
 	} finally {
 		await pool.end();
 	}
 }
 
-seed();
+seed().catch(() => process.exit(1));
