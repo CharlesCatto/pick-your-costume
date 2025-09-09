@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import type { Costume } from "../data/costumeTypes";
-import { useLanguage } from "./useLanguage";
+import { useTranslation } from "./useTranslation";
+
+// URL de l'API selon l'environnement
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 export const useCostumeData = () => {
 	const [costumes, setCostumes] = useState<Costume[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const { language } = useLanguage();
+	const { language } = useTranslation(); // ← Utilise 'language' au lieu de 'currentLanguage'
 
 	useEffect(() => {
 		const fetchCostumes = async () => {
 			try {
 				setLoading(true);
 				const response = await fetch(
-					`http://localhost:3001/api/costumes?lang=${language}`,
+					`${API_URL}/api/costumes?lang=${language}`,
 				);
 
 				if (!response.ok) {
