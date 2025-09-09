@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
 	plugins: [react()],
-	base: "/pick-your-costume/",
+	base: process.env.NODE_ENV === "production" ? "/" : "/pick-your-costume/",
 });
