@@ -11,7 +11,6 @@
 		"migrate": "ts-node bin/migrate.ts",
 		"seed": "ts-node bin/seed.ts",
 		"reset-db": "npm run migrate && npm run seed",
-		"check-db": "ts-node bin/check-db.ts",
 		"render-build": "npm install && npm run build && npm run copy-files",
 		"copy-files": "cp -r src/database dist/ && cp package.json dist/ && cp .env.production dist/ || true"
 	},
