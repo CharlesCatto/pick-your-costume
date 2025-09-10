@@ -6,6 +6,7 @@ import styles from "./App.module.css";
 import Costumes from "../pages/Costumes/Costumes";
 import Categories from "../pages/Categories/Categories";
 import NotFound from "../pages/NotFound/NotFound";
+import Footer from "../components/Footer/Footer";
 
 function App() {
 	console.log("App component rendering");
@@ -23,6 +24,7 @@ function App() {
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</main>
+				<Footer />
 			</div>
 		</Router>
 	);

@@ -4,6 +4,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 import type { Costume } from "../../data/costumeTypes";
 import { getCategoryEmoji } from "../../utils/Helpers";
 import LazyImage from "../../components/LazyImage/LazyImage";
+import LoadingEmoji from "../../components/LoadingEmoji/LoadingEmoji";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
@@ -62,7 +63,11 @@ const Categories = () => {
 	};
 
 	if (loading) {
-		return <div className={styles.loading}>{t("common.loading")}</div>;
+		return (
+			<div className={styles.loadingWrapper}>
+				<LoadingEmoji text={t("categories.loading")} />
+			</div>
+		);
 	}
 
 	if (error) {

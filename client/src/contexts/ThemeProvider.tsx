@@ -4,12 +4,13 @@ import {
 	ThemeContext,
 	type ThemeContextType,
 	type Theme,
+	type ThemeItem,
 } from "./ThemeContext";
 
-const THEMES = [
-	{ id: "halloween" as Theme, name: "Halloween", emoji: "🎃" },
-	{ id: "christmas" as Theme, name: "Noël", emoji: "🎄" },
-	{ id: "carnival" as Theme, name: "Carnaval", emoji: "🎭" },
+const THEMES: ThemeItem[] = [
+	{ id: "halloween", name: "Halloween", emoji: "🎃", color: "#FF7518" },
+	{ id: "christmas", name: "Christmas", emoji: "🎄", color: "#00FF00" },
+	{ id: "carnival", name: "Carnival", emoji: "🎭", color: "#FF00FF" },
 ];
 
 interface ThemeProviderProps {
