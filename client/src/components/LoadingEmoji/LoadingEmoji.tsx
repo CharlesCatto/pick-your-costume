@@ -10,8 +10,15 @@ const LoadingEmoji = ({ text }: LoadingEmojiProps) => {
 
 	const currentTheme = themes.find((t) => t.id === theme);
 
+	console.log(
+		"Rendering LoadingEmoji with theme:",
+		theme,
+		"emoji:",
+		currentTheme?.emoji,
+	);
+
 	return (
-		<div className={styles.loadingContainer}>
+		<div className={styles.container}>
 			<p className={styles.loadingText}>{text}</p>
 			<div className={styles.emojiWrapper}>
 				<span className={styles.emoji}>{currentTheme?.emoji || "🎭"}</span>

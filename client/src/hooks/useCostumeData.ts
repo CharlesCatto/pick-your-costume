@@ -9,7 +9,7 @@ export const useCostumeData = () => {
 	const [costumes, setCostumes] = useState<Costume[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const { language } = useTranslation(); // ← Utilise 'language' au lieu de 'currentLanguage'
+	const { language } = useTranslation();
 
 	useEffect(() => {
 		const fetchCostumes = async () => {

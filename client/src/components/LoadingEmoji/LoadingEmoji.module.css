@@ -5,6 +5,19 @@
 	transform: translate(-50%, -50%);
 	z-index: 1000;
 	pointer-events: none;
+	text-align: center;
+}
+
+.loadingText {
+	font-size: 1.2rem;
+	color: var(--text-color, #333);
+	margin-bottom: 12px;
+}
+
+.emojiWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .emoji {
