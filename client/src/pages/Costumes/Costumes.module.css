@@ -68,9 +68,9 @@
 }
 
 .filterButton.active {
-	background: #007bff;
+	background: hsl(var(--color-primary));
 	color: white;
-	border-color: #007bff;
+	border-color: hsl(var(--color-secondary));
 }
 
 /* --- Select de prix --- */
