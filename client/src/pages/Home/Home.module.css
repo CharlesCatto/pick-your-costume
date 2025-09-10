@@ -27,7 +27,7 @@
 .ctaButton {
 	display: inline-block;
 	background-color: hsl(var(--color-primary));
-	color: #78206e;
+	color: var(--color-primary);
 	padding: var(--space-4) var(--space-8);
 	border-radius: var(--radius);
 	text-decoration: none;

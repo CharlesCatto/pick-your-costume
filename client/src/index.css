@@ -41,7 +41,7 @@ body {
 
 /* Appliquer les variables de thème */
 [data-theme="halloween"] {
-	--color-primary: #78206e;
+	--color-primary: 307 58% 30%;
 	--color-secondary: 274 82% 38%;
 	--navbar-gradient: linear-gradient(
 		135deg,
@@ -59,7 +59,7 @@ body {
 }
 
 [data-theme="christmas"] {
-	--color-primary: #c32230;
+	--color-primary: 356 71% 46%;
 	--color-secondary: 0 84% 60%;
 	--navbar-gradient: linear-gradient(
 		135deg,
@@ -77,7 +77,7 @@ body {
 }
 
 [data-theme="carnival"] {
-	--color-primary: #ffd800;
+	--color-primary: 51 100% 50%;
 	--color-secondary: 172 66% 50%;
 	--navbar-gradient: linear-gradient(
 		135deg,

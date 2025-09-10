@@ -35,7 +35,7 @@ const ThemeSelector: React.FC = () => {
 	}, [isOpen]);
 
 	return (
-		<div className={styles.themeSelector}>
+		<div className={styles.themeSelector} ref={ref}>
 			<button
 				type="button"
 				className={styles.triggerButton}

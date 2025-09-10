@@ -99,12 +99,12 @@
 }
 
 .actionButton:hover:not(.disabled) {
-	background: #e8e8e8;
+	background: var(--color-primary);
 }
 
 .actionButton.active {
 	background: #007bff;
-	color: white;
+	color: var(--color-primary);
 	border-color: #007bff;
 }
 

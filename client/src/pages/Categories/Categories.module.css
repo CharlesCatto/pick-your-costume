@@ -57,7 +57,7 @@
 
 .categoryCard.active {
 	background: hsl(var(--color-primary));
-	color: #78206e;
+	color: var(--color-primary);
 	border-color: hsl(var(--color-primary));
 }
 
