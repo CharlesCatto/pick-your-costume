@@ -1,4 +1,17 @@
 /* Variables CSS communes */
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
 :root {
 	/* Espacements */
 	--space-1: 0.25rem;
