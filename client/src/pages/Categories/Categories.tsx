@@ -22,8 +22,9 @@ const Categories = () => {
 					`${API_URL}/api/costumes?lang=${language}`,
 				);
 
-				if (!response.ok)
+				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
+				}
 
 				const data = await response.json();
 				setCostumes(data);
@@ -60,25 +61,28 @@ const Categories = () => {
 			: costumes.filter((c) => c.category === category).length;
 	};
 
-	if (loading)
+	if (loading) {
 		return <div className={styles.loading}>{t("common.loading")}</div>;
-	if (error)
+	}
+
+	if (error) {
 		return (
 			<div className={styles.error}>
 				{t("common.error")}: {error}
 			</div>
 		);
+	}
 
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
 				<h1>{t("categories.title")}</h1>
 				<p className={styles.subtitle}>
-					Discover {costumes.length} amazing costumes across all categories
+					{t("categories.count", { count: costumes.length })}
 				</p>
 			</header>
 
-			{/* Filtres de catégories */}
+			{/* Category Filters */}
 			<section className={styles.categorySection}>
 				<h2>{t("categories.filterBy")}</h2>
 				<div className={styles.categoryGrid}>
@@ -107,7 +111,7 @@ const Categories = () => {
 				</div>
 			</section>
 
-			{/* Résultats */}
+			{/* Results Section */}
 			<section className={styles.resultsSection}>
 				<div className={styles.resultsHeader}>
 					<h2>

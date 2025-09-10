@@ -8,13 +8,14 @@ import type {
 	PriceRange,
 } from "../../data/costumeTypes";
 import styles from "./Costumes.module.css";
+import LoadingEmoji from "../../components/LoadingEmoji/LoadingEmoji";
 
 const Costumes = () => {
 	const { t } = useTranslation();
 	const { costumes, loading, getAllCategories, getCategoryDisplayName } =
 		useCostumeHelpers();
 
-	// États pour les filtres
+	// --- États des filtres et modes ---
 	const [selectedCategories, setSelectedCategories] = useState<
 		CostumeCategory[]
 	>([]);
@@ -23,18 +24,16 @@ const Costumes = () => {
 	const [isBlurred, setIsBlurred] = useState(false);
 	const [priceFilter, setPriceFilter] = useState<PriceRange | "all">("all");
 
-	// Catégories uniques pour les filtres
-	const categories = useMemo(() => {
-		return getAllCategories();
-	}, [getAllCategories]);
+	// --- Récupération des catégories ---
+	const categories = useMemo(() => getAllCategories(), [getAllCategories]);
 
-	// Filtrer les costumes
+	// --- Filtrage des costumes ---
 	const filteredCostumes: Costume[] = useMemo(() => {
 		let filtered = costumes;
 
 		// Filtre par catégorie
 		if (selectedCategories.length > 0) {
-			filtered = filtered.filter((costume: Costume) =>
+			filtered = filtered.filter((costume) =>
 				selectedCategories.includes(costume.category),
 			);
 		}
@@ -42,22 +41,23 @@ const Costumes = () => {
 		// Filtre par prix
 		if (priceFilter !== "all") {
 			filtered = filtered.filter(
-				(costume: Costume) => costume.price_range === priceFilter,
+				(costume) => costume.price_range === priceFilter,
 			);
 		}
 
 		return filtered;
 	}, [selectedCategories, priceFilter, costumes]);
 
-	// Réinitialiser l'index quand les filtres changent
+	// --- Réinitialiser l'index quand les filtres changent ---
 	useEffect(() => {
 		setCurrentCostumeIndex(0);
 		if (filteredCostumes.length === 0) {
 			setIsRandomMode(false);
+			setIsBlurred(false);
 		}
 	}, [filteredCostumes]);
 
-	// Gestion sélection catégories
+	// --- Gestion des catégories ---
 	const selectAllCategories = () => {
 		setSelectedCategories(categories as CostumeCategory[]);
 		setIsRandomMode(false);
@@ -85,7 +85,7 @@ const Costumes = () => {
 		setIsRandomMode(false);
 	};
 
-	// Navigation aléatoire
+	// --- Navigation en mode aléatoire ---
 	const nextCostume = () => {
 		if (filteredCostumes.length === 0) {
 			setIsRandomMode(false);
@@ -111,8 +111,13 @@ const Costumes = () => {
 		}
 	};
 
+	// --- Affichage du chargement ---
 	if (loading) {
-		return <div className={styles.loading}>{t("costumes.loading")}</div>;
+		return (
+			<div className={styles.loadingWrapper}>
+				<LoadingEmoji text={t("costumes.loading")} />
+			</div>
+		);
 	}
 
 	return (
@@ -121,7 +126,7 @@ const Costumes = () => {
 
 			{/* --- Section des filtres et actions --- */}
 			<div className={styles.controls}>
-				{/* Filtres par catégorie */}
+				{/* --- Filtres par catégorie --- */}
 				<div className={styles.filterGroup}>
 					<div className={styles.filterHeader}>
 						<h3>{t("costumes.filterByCategory")}</h3>
@@ -135,6 +140,7 @@ const Costumes = () => {
 								: t("costumes.selectAll")}
 						</button>
 					</div>
+
 					<div className={styles.filterButtons}>
 						{categories.map((category) => (
 							<button
@@ -153,7 +159,7 @@ const Costumes = () => {
 					</div>
 				</div>
 
-				{/* Filtre de prix */}
+				{/* --- Filtre par prix --- */}
 				<div className={styles.filterGroup}>
 					<h3>{t("costumes.priceRange")}</h3>
 					<select
@@ -171,7 +177,7 @@ const Costumes = () => {
 					</select>
 				</div>
 
-				{/* Boutons Random / Blind Mode */}
+				{/* --- Boutons Random & Blind Mode --- */}
 				<div className={styles.actionGroup}>
 					<button
 						type="button"
@@ -197,7 +203,7 @@ const Costumes = () => {
 						{isBlurred ? t("costumes.seeAnswer") : t("costumes.guessMode")}
 					</button>
 
-					{/* Navigation aléatoire */}
+					{/* --- Navigation aléatoire --- */}
 					{isRandomMode && filteredCostumes.length > 0 && (
 						<>
 							<button
@@ -215,7 +221,7 @@ const Costumes = () => {
 				</div>
 			</div>
 
-			{/* Aucun résultat */}
+			{/* --- Aucun résultat --- */}
 			{filteredCostumes.length === 0 && !loading && (
 				<div className={styles.noResults}>
 					<h3>{t("costumes.noResults")}</h3>
@@ -223,19 +229,19 @@ const Costumes = () => {
 				</div>
 			)}
 
-			{/* Galerie ou costume unique */}
+			{/* --- Galerie ou affichage unique --- */}
 			<div className={styles.costumesContainer}>
 				{filteredCostumes.length > 0 && isRandomMode ? (
 					<div className={styles.singleCostume}>
 						<Card
 							costume={filteredCostumes[currentCostumeIndex]}
 							isBlurred={isBlurred}
-							blurContentOnly={true}
+							blurContentOnly
 						/>
 					</div>
 				) : filteredCostumes.length > 0 ? (
 					<div className={styles.costumesGrid}>
-						{filteredCostumes.map((costume: Costume) => (
+						{filteredCostumes.map((costume) => (
 							<Card key={costume.id} costume={costume} />
 						))}
 					</div>

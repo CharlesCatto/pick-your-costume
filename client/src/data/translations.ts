@@ -61,6 +61,13 @@ export const translations = {
 				"Try adjusting the price filter or selecting different categories.",
 			loading: "Loading costumes...",
 		},
+		categories: {
+			title: "Browse by Category",
+			filterBy: "Filter by category:",
+			all: "All categories",
+			noCostumes: "No costumes found",
+			count: "{count} costumes",
+		},
 		category: {
 			fantasy: "Fantasy",
 			horror: "Horror",
