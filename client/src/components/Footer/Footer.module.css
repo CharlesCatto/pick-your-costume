@@ -2,7 +2,7 @@
 	width: 100%;
 	padding: 1rem 0;
 	text-align: center;
-	background-color: #222;
+	background-color: var(--navbar-gradient);
 	color: #fff;
 	font-size: 0.9rem;
 	display: flex;
