@@ -27,7 +27,7 @@
 .ctaButton {
 	display: inline-block;
 	background-color: hsl(var(--color-primary));
-	color: var(--color-primary);
+	color: hsl(var(--color-primary));
 	padding: var(--space-4) var(--space-8);
 	border-radius: var(--radius);
 	text-decoration: none;
@@ -37,7 +37,7 @@
 }
 
 .ctaButton:hover {
-	background-color: #7e3c76;
+	background-color: hsl(var(--color-secondary));
 	transform: translateY(-2px);
 }
 
@@ -70,6 +70,15 @@
 	padding: var(--space-6);
 	max-width: 280px;
 	width: 100%;
+	text-decoration: none;
+	border-radius: var(--radius-lg);
+	transition: all 0.3s ease;
+	background: hsl(var(--color-card));
+}
+
+.featureCard:hover {
+	background: hsl(var(--color-secondary-hover));
+	transform: translateY(-4px);
 }
 
 .featureIcon {
@@ -88,17 +97,6 @@
 	line-height: 1.5;
 }
 
-.quickActions {
-	text-align: center;
-	padding: var(--space-8) 0;
-}
-
-.quickActions h2 {
-	font-size: var(--text-2xl);
-	margin-bottom: var(--space-6);
-	color: hsl(var(--color-primary));
-}
-
 .actionButtons {
 	display: flex;
 	justify-content: center;
@@ -110,7 +108,7 @@
 	display: inline-block;
 	padding: var(--space-3) var(--space-6);
 	background-color: hsl(var(--color-secondary));
-	color: white;
+	color: hsl(var(--color-secondary));
 	text-decoration: none;
 	border-radius: var(--radius);
 	font-weight: 600;

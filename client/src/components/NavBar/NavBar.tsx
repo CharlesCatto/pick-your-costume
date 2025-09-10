@@ -14,6 +14,7 @@ const NavBar = () => {
 	const handleClick = () => setClick((prev) => !prev);
 	const closeMobileMenu = () => setClick(false);
 
+	// Fermer le menu si clic à l'extérieur
 	useEffect(() => {
 		const handleOutsideClick = (event: MouseEvent) => {
 			if (navRef.current && !navRef.current.contains(event.target as Node)) {
@@ -47,19 +48,28 @@ const NavBar = () => {
 			}}
 		>
 			<div className={styles.navContainer} ref={navRef}>
-				<NavLink to="/" className={styles.navLogo} onClick={closeMobileMenu}>
-					Pick your Costume
+				{/* Brand (avec texte + logo) */}
+				<NavLink
+					to="/"
+					className={styles.navLogo}
+					onClick={closeMobileMenu}
+					aria-label="Pick your Costume - Home"
+				>
+					{/* Texte normal, masqué sur très petits écrans via CSS */}
+					<span className={styles.brandFull}>Pick your Costume</span>
+					{/* Abrégé visible uniquement sur mobile (CSS contrôle l’affichage) */}
+					<span className={styles.brandShort}>PYC</span>
 					<img
 						src={logo}
-						alt="logo of Pick your Costume"
+						alt="Pick your Costume logo"
 						className={styles.logo}
 					/>
-					<i className="fas fa-code" />
 				</NavLink>
 
+				{/* Menu principal */}
 				<ul
 					className={
-						click ? `${styles.navMenu} ${styles.active}` : styles.navMenu
+						click ? `${styles.navMenu} ${styles.menuActive}` : styles.navMenu
 					}
 				>
 					{navItems.map((item) => (
@@ -68,7 +78,7 @@ const NavBar = () => {
 								to={item.path}
 								className={({ isActive }) =>
 									isActive
-										? `${styles.navLinks} ${styles.active}`
+										? `${styles.navLinks} ${styles.linkActive}`
 										: styles.navLinks
 								}
 								onClick={closeMobileMenu}
@@ -80,9 +90,8 @@ const NavBar = () => {
 					))}
 				</ul>
 
-				{/* Conteneur pour les boutons d'actions */}
+				{/* Actions (langue + thème) */}
 				<div className={styles.navActions}>
-					{/* Bouton de langue */}
 					<button
 						type="button"
 						onClick={toggleLanguage}
@@ -94,10 +103,10 @@ const NavBar = () => {
 						{language === "en" ? "🇫🇷" : "🇬🇧"}
 					</button>
 
-					{/* Sélecteur de thème */}
 					<ThemeSelector />
 				</div>
 
+				{/* Burger menu (mobile) */}
 				<button
 					type="button"
 					className={`${styles.navIcon} ${click ? styles.open : ""}`}

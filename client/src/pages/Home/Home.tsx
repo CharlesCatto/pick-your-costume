@@ -4,7 +4,33 @@ import { useTranslation } from "../../hooks/useTranslation";
 
 const Home = () => {
 	const { t } = useTranslation();
-	console.log("Home component rendering");
+
+	const features = [
+		{
+			icon: "🔍",
+			title: t("home.features.explore.title"),
+			description: t("home.features.explore.description"),
+			to: "/costumes",
+		},
+		{
+			icon: "🎲",
+			title: t("home.features.randomize.title"),
+			description: t("home.features.randomize.description"),
+			to: "/costumes?mode=random",
+		},
+		{
+			icon: "🙈",
+			title: t("home.features.guess.title"),
+			description: t("home.features.guess.description"),
+			to: "/costumes?mode=guess",
+		},
+		{
+			icon: "📱",
+			title: t("home.features.mobile.title"),
+			description: t("home.features.mobile.description"),
+			to: "/about",
+		},
+	];
 
 	return (
 		<div className={styles.container}>
@@ -18,44 +44,13 @@ const Home = () => {
 
 			<section className={styles.features}>
 				<div className={styles.featureGrid}>
-					<div className={styles.featureCard}>
-						<div className={styles.featureIcon}>🔍</div>
-						<h3>{t("home.features.explore.title")}</h3>
-						<p>{t("home.features.explore.description")}</p>
-					</div>
-
-					<div className={styles.featureCard}>
-						<div className={styles.featureIcon}>🎲</div>
-						<h3>{t("home.features.randomize.title")}</h3>
-						<p>{t("home.features.randomize.description")}</p>
-					</div>
-
-					<div className={styles.featureCard}>
-						<div className={styles.featureIcon}>🙈</div>
-						<h3>{t("home.features.guess.title")}</h3>
-						<p>{t("home.features.guess.description")}</p>
-					</div>
-
-					<div className={styles.featureCard}>
-						<div className={styles.featureIcon}>📱</div>
-						<h3>{t("home.features.mobile.title")}</h3>
-						<p>{t("home.features.mobile.description")}</p>
-					</div>
-				</div>
-			</section>
-
-			<section className={styles.quickActions}>
-				<h2>{t("home.quickActions.title")}</h2>
-				<div className={styles.actionButtons}>
-					<Link to="/costumes?mode=random" className={styles.actionButton}>
-						🎲 {t("home.quickActions.random")}
-					</Link>
-					<Link to="/categories" className={styles.actionButton}>
-						🎭 {t("home.quickActions.byCategory")}
-					</Link>
-					<Link to="/about" className={styles.actionButton}>
-						ℹ️ {t("home.quickActions.about")}
-					</Link>
+					{features.map((f) => (
+						<Link key={f.title} to={f.to} className={styles.featureCard}>
+							<div className={styles.featureIcon}>{f.icon}</div>
+							<h3>{f.title}</h3>
+							<p>{f.description}</p>
+						</Link>
+					))}
 				</div>
 			</section>
 		</div>
