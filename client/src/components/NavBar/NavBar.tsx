@@ -69,7 +69,7 @@ const NavBar = () => {
 				{/* Menu principal */}
 				<ul
 					className={
-						click ? `${styles.navMenu} ${styles.menuActive}` : styles.navMenu
+						click ? `${styles.navMenu} ${styles.active}` : styles.navMenu
 					}
 				>
 					{navItems.map((item) => (
