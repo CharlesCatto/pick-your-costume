@@ -7,7 +7,7 @@ A full-stack web application for exploring, discovering, and learning about vari
 ![Pick Your Costume](https://img.shields.io/badge/React-18.2.0-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-green?style=for-the-badge&logo=node.js)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?style=for-the-badge&logo=postgresql)
 
 ## ✨ Features
 
