@@ -1,6 +1,7 @@
 import type { Costume } from "../../data/costumeTypes";
 import styles from "./Card.module.css";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useMaterialTranslation } from "../../hooks/useMaterialTranslations";
 import { useCostumeHelpers } from "../../utils/Helpers";
 import LazyImage from "../LazyImage/LazyImage";
 
@@ -16,6 +17,7 @@ const Card = ({
 	blurContentOnly = false,
 }: CardProps) => {
 	const { t } = useTranslation();
+	const { translateMaterial } = useMaterialTranslation();
 	const {
 		getCategoryDisplayName,
 		getDifficultyDisplayName,
@@ -32,7 +34,13 @@ const Card = ({
 			</header>
 
 			<div
-				className={`${styles.cardBody} ${isBlurred ? (blurContentOnly ? styles.blurredContent : styles.blurred) : ""}`}
+				className={`${styles.cardBody} ${
+					isBlurred
+						? blurContentOnly
+							? styles.blurredContent
+							: styles.blurred
+						: ""
+				}`}
 			>
 				{/* Image du costume avec Lazy Loading */}
 				{costume.image_url && (
@@ -92,14 +100,17 @@ const Card = ({
 						</div>
 					)}
 
-					{/* Materials du costume */}
+					{/* Materials du costume (avec traduction) */}
 					{costume.materials && costume.materials.length > 0 && (
 						<div className={styles.materials}>
 							<strong>{t("common.materials")}:</strong>
 							<ul className={styles.materialsList}>
 								{costume.materials.map((material) => (
-									<li key={material.material} className={styles.materialItem}>
-										{material.material}{" "}
+									<li
+										key={`${costume.id}-${material.material}`}
+										className={styles.materialItem}
+									>
+										{translateMaterial(material.material)}{" "}
 										{material.quantity && `(${material.quantity})`}
 									</li>
 								))}
@@ -107,12 +118,12 @@ const Card = ({
 						</div>
 					)}
 
-					{/* Popularité (optionnel) */}
+					{/* Popularité */}
 					{costume.popularity !== undefined && costume.popularity > 0 && (
 						<p className={styles.popularity}>
 							<strong>{t("common.popularity")}:</strong>
 							{"★".repeat(Math.max(0, Math.min(5, costume.popularity)))}
-							{"☆".repeat(Math.max(0, 5 - Math.min(5, costume.popularity)))}(
+							{"☆".repeat(Math.max(0, 5 - Math.min(5, costume.popularity)))} (
 							{costume.popularity}/5)
 						</p>
 					)}
